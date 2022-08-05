@@ -86,7 +86,7 @@ const RecruitHeader: NextPage = () => {
           ))}
         </section>
 
-        <div className="flex items-center absolute right-0 ssm:-top-14">
+        <div className="flex items-center absolute right-0 xm:-top-14">
           <span className="font-bold text-2xl mr-6 tracking-tight">
             모집 중만 보기
           </span>
