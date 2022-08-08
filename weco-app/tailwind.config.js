@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     screens: {
       xm: { max: '554px' },
-
+      custom_md: { max: '1000px' },
       sm: { max: '767px' },
       // => @media (min-width: 640px and max-width: 767px) { ... }
 
