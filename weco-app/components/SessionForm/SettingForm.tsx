@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { datalist } from 'data/SkillDataList';
 import { MultiSelect } from 'react-multi-select-component';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 
 type props = {
   fileUpload: string;
