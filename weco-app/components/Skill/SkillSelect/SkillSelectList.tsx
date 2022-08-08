@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
-import { dataSkill } from '../SkillDataList';
+import { dataSkill } from '../../../data/SkillDataList';
 
 type Props = {
   item: number;
