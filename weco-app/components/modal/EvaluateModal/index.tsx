@@ -4,18 +4,10 @@ import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 
 const PopUpStyle: Modal.Styles = {
-  overlay: {
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
   content: {
     position: 'fixed',
     left: '1.5rem',
     bottom: '1.5rem',
-    top: '4rem',
-    right: '4rem',
     width: '500px',
     height: '300px',
     display: 'flex',
@@ -44,12 +36,24 @@ export function EvaluateModal() {
     setFeedback(data.feedbackvalue);
     reset();
   };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   console.log('별점', rating);
   console.log('피드백', feedback);
   return (
     <>
       <div className="fixed left-6 bottom-6  w-16 h-16" onClick={openModal}>
-        <Image src="/img/eval.png" width="50" height="50" />
+        <Image
+          src="/img/eval.png"
+          width="50"
+          height="50"
+          className="hover:cursor-pointer hover:scale-110 ease-in-out duration-200"
+        />
       </div>
       <Modal
         isOpen={modalOpen}
@@ -86,6 +90,15 @@ export function EvaluateModal() {
           </button>
         </form>
       </Modal>
+      <div className="fixed right-4 bottom-4 w-16 h-16 ">
+        <Image
+          className="hover:cursor-pointer hover:scale-110 ease-in-out duration-200"
+          src="/img/top.jpg"
+          width="55"
+          height="50"
+          onClick={scrollToTop}
+        />
+      </div>
     </>
   );
 }
