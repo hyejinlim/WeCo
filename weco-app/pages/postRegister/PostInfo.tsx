@@ -1,10 +1,12 @@
 import { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
+import React, { useEffect, useState, useRef } from 'react';
 import { postInfoData } from '../../data/postInfo.js';
 import SelectForm from '../../components/select/SelectForm';
-import { forEach } from 'ramda';
-
+import { makeStyles } from '@mui/styles';
+import DatePickerForm from '../../components/picker/DatePickerForm';
+import dayjs from 'dayjs';
+import { addZero } from '../../utils/common';
+// import { makeStyles } from '@mui/styles';
 interface Option {
   value: string;
   label: string;
@@ -18,8 +20,16 @@ interface PostInfo {
   isMulti: boolean;
   options: Array<Option[]>;
 }
+// const useStyles = makeStyles({
+//   root: {
+//     '& .MuiFormControl-root': {
+//       width: '100%',
+//     },
+//   },
+// });
 
 const PostInfo: NextPage = () => {
+  const [value, setValue] = useState(dayjs().format('YYYY-MM-DD'));
   const [postData, setPostData] = useState(postInfoData);
   const [requestData, setRequestData] = useState({
     title: '',
@@ -35,45 +45,41 @@ const PostInfo: NextPage = () => {
   });
 
   useEffect(() => {
-    console.log(' requestData   ===> ', requestData);
-  }, [requestData]);
+    // TODO: style접근 방법 찾기
+    selectComponentStyle();
+    window.addEventListener('resize', selectComponentStyle );
+    return () => {
+      window.removeEventListener('resize', selectComponentStyle );
+    }
+  }, [])
+
+  const selectComponentStyle = () => {
+    setTimeout(() => {
+      const styleSet = (
+        document.getElementsByClassName(
+          'MuiFormControl-root'
+        ) as HTMLCollectionOf<HTMLElement>
+      )[0];
+      if (styleSet) {
+        styleSet.style.width = '100%';
+      }
+    }, 100);
+  }
 
   useEffect(() => {
-    if (requestData.skills.length < 1) {
-      const skills = [...postData];
-      console.log('skills ===> ', skills);
-      // skills.forEach((items) => {
-      //   items.options.forEach((item: any) => {
-      //     if (item.type === 'TS') {
-      //       item.disabled = true;
-      //     }
-      //   });
-      // });
-      // setPostData(skills);
+    let updatePostData;
+    if (requestData.skills.length > 4) {
+      updatePostData = skillDisabledUpdate(true);
+    } else {
+      updatePostData = skillDisabledUpdate(false);
     }
+    setPostData(updatePostData);
   }, [requestData.skills]);
 
   const selectHandler = (data: any) => {
-    let value;
-    let type;
+    const [value, type] = searchSkillValue(data);
 
-    // TODO : 스킬타입 같은 경우 배열로 들어 오기 때문에 분기 처리 해야함
-    // 함수로 빼야함
-    if (Array.isArray(data)) {
-      if (data.length > 0) {
-        const skillValue = data.map((skill: any): string => {
-          return skill.value;
-        });
-        value = skillValue;
-        type = data[0].type;
-      } else {
-        value = [];
-        type = 'TS';
-      }
-    } else {
-      value = data.value;
-      type = data.type;
-    }
+    // TODO: 충분히 한 줄로 줄일 수 있음.
     switch (type) {
       // 모집 구분
       case 'RD':
@@ -95,10 +101,10 @@ const PostInfo: NextPage = () => {
       case 'TS':
         setRequestData({ ...requestData, skills: value });
         break;
-      // 시작 예정일
-      case 'SS':
-        setRequestData({ ...requestData, start_date: value });
-        break;
+      // // 시작 예정일
+      // case 'SS':
+      //   setRequestData({ ...requestData, start_date: value });
+      //   break;
       // 연락 방법
       case 'CM':
         setRequestData({ ...requestData, contact_type: value });
@@ -107,6 +113,53 @@ const PostInfo: NextPage = () => {
     }
   };
 
+  const skillDisabledUpdate = (isDisabled: boolean) => {
+    const copyPostData = [...postData];
+    // TODO: 배열에 고정으로 박혀있기 때문에 굳이 forEach 여러번 돌릴 필요 없음
+    copyPostData.forEach((items) => {
+      items.forEach((item) => {
+        item.options.forEach((list: Option) => {
+          if (list.type === 'TS') {
+            list.disabled = isDisabled;
+          }
+        });
+      });
+    });
+    return copyPostData;
+  };
+
+  // TODO: 함수명변경
+  const searchSkillValue = (data: any) => {
+    let value;
+    let type;
+
+    if (Array.isArray(data)) {
+      if (data.length > 0) {
+        const skillValue = data.map((skill) => {
+          return skill.value;
+        });
+        value = skillValue;
+        type = data[0].type;
+      } else {
+        value = [];
+        type = 'TS';
+      }
+    } else {
+      value = data.value;
+      type = data.type;
+    }
+    return [value, type];
+  };
+
+  const dateValueOnChange = (value: any) => {
+    const year = value.year();
+    const month = addZero(value.month());
+    const date = addZero(value.date());
+    setValue(`${year}-${month}-${date}`);
+    setRequestData({ ...requestData, start_date: `${year}-${month}-${date}` });
+  };
+
+  // const classes = useStyles();
   return (
     <>
       <div className="custom_md:w-[100%] flex flex-col w-[1024px] w-max-[1040px] mx-auto my-0 gap-[3.0rem] py-[60px] px-[16px]">
@@ -121,66 +174,74 @@ const PostInfo: NextPage = () => {
           </div>
 
           {postData.map((items, idx) => (
-            <ul className="mt-10 flex gap-4 sm:flex-col sm:mt-5" key={idx}>
+            <ul className="mt-10 flex gap-4 sm:flex-col sm:mt-5">
               {items.map((item) =>
-                item.options.length > 0 ? (
+                item.title.length > 0 ? (
+                  item.options.length > 0 ? (
+                    <>
+                      <li className="grow shrink basis-[0%]" key={item.id}>
+                        <label className="inline-block font-medium mb-[5px]">
+                          {item.title}
+                        </label>
+                        <SelectForm
+                          options={item.options}
+                          isMulti={item.isMulti}
+                          placeHolder={item.place_holder}
+                          onChange={(e) => selectHandler(e)}
+                        />
+                      </li>
+                    </>
+                  ) : (
+                    <li className="grow shrink basis-[0%]" key={item.id}>
+                      <div className="flex">
+                        <div className="gap-3 w-[100%]">
+                          <div className="inline-block font-medium mb-[5px]">
+                            {item.title}
+                          </div>
+                          <DatePickerForm
+                            onChange={(newValue) => dateValueOnChange(newValue)}
+                            date={value}
+                          />
+                        </div>
+                      </div>
+                    </li>
+                  )
+                ) : (
                   <>
                     <li className="grow shrink basis-[0%]" key={item.id}>
-                      <label className="inline-block font-medium mb-[5px]">
-                        {item.title}
-                      </label>
-                      <SelectForm
-                        options={item.options}
-                        isMulti={item.isMulti}
-                        placeHolder={item.place_holder}
-                        onChange={(e) => selectHandler(e)}
-                      />
+                      <div className="mt-[12px]">
+                        <input
+                          className="w-[100%] h-[56px] min-h-[56px] leading-10 pl-[16px] pr-[52px] py-[10px] border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                          type="hidden"
+                        />
+                      </div>
                     </li>
                   </>
-                ) : (
-                  <li className="grow shrink basis-[0%]" key={item.id}>
-                    <label className="inline-block font-medium mb-[5px]">
-                      {item.title}
-                    </label>
-                  </li>
                 )
               )}
             </ul>
           ))}
-
-          {/* {postInfoData.map((items, idx) =>
-          items.options.length > 0 ? (
-            <ul className=" mt-10 flex gap-4 ">
-              <li key={items.id} className="">
-                <label>{items.title}</label>
-                <SelectForm
-                  options={items.options}
-                  isMulti={items.isMulti}
-                  placeHolder={items.place_holder}
-                  onChange={(e) => selectHandler(e)}
+          <ul className="mt-1 flex gap-4 sm:flex-col ">
+            <li className="grow shrink basis-[0%]">
+              <div className="mt-[12px]">
+                <input
+                  className="w-[100%] h-[56px] min-h-[56px] leading-10 pl-[16px] pr-[52px] py-[10px] border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  type="text"
+                  value={requestData.contact}
+                  onChange={(e)=>setRequestData({...requestData, contact: e.target.value})}
+                  placeholder='오픈 카톡방 링크'
                 />
-              </li>
-            </ul>
-          ) : (
-            <>캘린더 폼</> // calender form
-          )
-        )} */}
-          <li>
-            <label htmlFor="onofflin">모집 구분</label>
-            {/*<div>
-              <span></span>
-               <div>
-                <div>프로젝트</div>
-                 <div>
-                  <div>
-                    <input type="text" />
-                    <div></div>
-                  </div>
-                </div> 
               </div>
-            </div> */}
-            <input name="onoffline" type="hidden" value="1"></input>
-          </li>
+            </li>
+            <li className="grow shrink basis-[0%]">
+              <div className="mt-[12px]">
+                <input
+                  className="w-[100%] h-[56px] min-h-[56px] leading-10 pl-[16px] pr-[52px] py-[10px] border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  type="hidden"
+                />
+              </div>
+            </li>
+          </ul>
         </section>
       </div>
     </>

@@ -6,6 +6,7 @@ interface Props {
   isMulti: boolean;
   placeHolder: string;
   onChange: (e: any) => void;
+  
 }
 
 const SelectForm = ({ options, isMulti, placeHolder, onChange }: Props) => {
