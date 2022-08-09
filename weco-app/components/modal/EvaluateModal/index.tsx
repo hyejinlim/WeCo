@@ -2,12 +2,13 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
+import StarRatings from 'react-star-ratings';
 
 const PopUpStyle: Modal.Styles = {
   content: {
-    position: 'fixed',
-    left: '1.5rem',
-    bottom: '1.5rem',
+    position: 'absolute',
+    top: '38rem',
+    left: '1rem',
     width: '500px',
     height: '300px',
     display: 'flex',
@@ -20,8 +21,8 @@ const PopUpStyle: Modal.Styles = {
 export function EvaluateModal() {
   const { register, handleSubmit, reset } = useForm({ mode: 'onChange' });
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [rating, setRating] = useState<number>(0);
   const [feedback, setFeedback] = useState<string>('');
+  const [star, setStar] = useState<number>(0);
   const openModal = () => {
     setModalOpen(true);
   };
@@ -29,12 +30,14 @@ export function EvaluateModal() {
     setModalOpen(false);
   };
 
-  const handleRating = (rate: number) => {
-    setRating(rate);
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setFeedback(value);
   };
-  const onSubmitValid = (data: any) => {
-    setFeedback(data.feedbackvalue);
-    reset();
+
+  const onSubmit = () => {
+    console.log('star', star, 'opinion', feedback);
+    setModalOpen(false);
   };
 
   const scrollToTop = () => {
@@ -43,8 +46,9 @@ export function EvaluateModal() {
       behavior: 'smooth',
     });
   };
-  console.log('별점', rating);
-  console.log('피드백', feedback);
+  const changeRating = (num: number) => {
+    setStar(num);
+  };
   return (
     <>
       <div className="fixed left-6 bottom-6  w-16 h-16" onClick={openModal}>
@@ -71,13 +75,12 @@ export function EvaluateModal() {
           </div>
         </div>
         <form
-          onSubmit={handleSubmit(onSubmitValid)}
-          className="flex justify-center items-center my-1"
+          onSubmit={onSubmit}
+          className="flex flex-col justify-center items-center my-1"
         >
+          <StarRatings rating={star} changeRating={changeRating} />
           <input
-            {...register('feedbackvalue', {
-              required: '피드백을 남겨주세요',
-            })}
+            onChange={onChange}
             type="text"
             placeholder="피드백을 남겨주세요"
             className="w-80 h-10 outline-none text-base py-0 px-6 border-solid mr-2 border-slate-500 border-2 rounded-lg"
