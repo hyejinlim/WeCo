@@ -6,10 +6,11 @@ interface Props {
   isMulti: boolean;
   placeHolder: string;
   onChange: (e: any) => void;
+  useId: () => string;
   
 }
-
-const SelectForm = ({ options, isMulti, placeHolder, onChange }: Props) => {
+// TODO: key값 에러 처리 
+const SelectForm = ({ options, isMulti, placeHolder, onChange, useId }: Props) => {
   const customStyles = {
     control: (base: any) => ({
       ...base,
@@ -27,6 +28,7 @@ const SelectForm = ({ options, isMulti, placeHolder, onChange }: Props) => {
     />
   ) : (
     <Select
+      instanceId={useId()}
       options={options}
       isMulti={isMulti}
       placeholder={placeHolder}
