@@ -7,18 +7,24 @@ interface Props {
   placeHolder: string;
   onChange: (e: any) => void;
   useId: () => string;
-  
 }
-// TODO: key값 에러 처리 
-const SelectForm = ({ options, isMulti, placeHolder, onChange, useId }: Props) => {
+// TODO: key값 에러 처리
+const SelectForm = ({
+  options,
+  isMulti,
+  placeHolder,
+  onChange,
+  useId,
+}: Props) => {
   const customStyles = {
     control: (base: any) => ({
       ...base,
       minHeight: 56,
     }),
   };
-  return options[0].type !== 'CM' ? (
+  return options[0].type !== 'contact_type' ? (
     <Select
+      instanceId={useId()}
       options={options}
       isMulti={isMulti}
       placeholder={placeHolder}
@@ -35,7 +41,7 @@ const SelectForm = ({ options, isMulti, placeHolder, onChange, useId }: Props) =
       onChange={onChange}
       styles={customStyles}
       defaultValue={{ value: options[0].value, label: options[0].label }}
-      isOptionDisabled={(options) => options.disabled}
+      // isOptionDisabled={(options) => options.disabled}
     />
   );
 };
