@@ -214,13 +214,15 @@ const PostInfo: NextPage = () => {
     <>
       <div className="custom_md:w-[100%] flex flex-col w-[1024px] w-max-[1040px] mx-auto my-0 gap-[3.0rem] py-[60px] px-[16px]">
         <section>
-          <PostHeader num={'1'} title={'프로젝트 기본 정보를 입력해 주세요'} />
+          <PostHeader num={'1'} title={'프로젝트 기본 정보를 입력해 주세요.'} />
           {postData.map((items, idx) => (
             <ul
               key={idx}
               className={`${
-                idx !== 4 && 'mt-10 sm:mt-5'
-              } flex gap-4 sm:flex-col`}
+                idx === 4
+                  ? 'flex gap-4 sm:flex-col sm:-mt-[25px]'
+                  : 'flex gap-4 sm:flex-col mt-10 sm:mt-5'
+              }`}
             >
               {items.map((item) =>
                 item.uiType === 'default' ? (
