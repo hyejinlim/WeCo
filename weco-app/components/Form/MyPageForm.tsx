@@ -1,6 +1,6 @@
 import RecruitCard from 'pages/recruit/RecruitCard';
 
-export function SessionForm() {
+export function MyPageForm() {
   return (
     <section className="pt-20">
       <div className="w-4/5 my-0 mx-auto min-h-screen">
@@ -11,7 +11,9 @@ export function SessionForm() {
             </span>
           </section>
         </main>
-        <RecruitCard />
+        <div className="bg-zinc-600 w-full h-screen text-8xl">
+          내가 작성한 게시글 보여주는 영역
+        </div>
       </div>
     </section>
   );

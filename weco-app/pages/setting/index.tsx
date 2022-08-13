@@ -1,6 +1,5 @@
 import { MainHeader } from 'components/Header';
-import { SessionForm } from 'components/SessionForm';
-import { SettingForm } from 'components/SessionForm/SettingForm';
+import { SettingForm } from 'components/Form/SettingForm';
 import { NextPage } from 'next';
 
 const Setting: NextPage = () => {
