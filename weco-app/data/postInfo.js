@@ -26,7 +26,7 @@ export const postInfoData = [
       isMulti: false,
       uiType: 'default',
       options: [
-        { value: '인원 미정', label: '인원 미정', type: 'RP' },
+        { value: '인원 미정', label: '인원 미정', type: 'recruit_cnt' },
         { value: '1명', label: '1명', type: 'recruit_cnt' },
         { value: '2명', label: '2명', type: 'recruit_cnt' },
         { value: '3명', label: '3명', type: 'recruit_cnt' },

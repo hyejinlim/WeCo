@@ -60,10 +60,7 @@ const PostInfo: NextPage = () => {
     skills: [],
   });
 
-  // 객체를 배열로 돌려서 value의 length를 체크한 다음 length가  1보다 아래면 에러메시지 출력인데
-  // 어떻게 에러메시지를 구분하는가.
   useEffect(() => {
-    searchKey();
     // TODO: style접근 방법 찾기 현재 react18에선 select라이브러리 호환 안맞음
     selectComponentStyle();
     window.addEventListener('resize', selectComponentStyle);
@@ -96,10 +93,11 @@ const PostInfo: NextPage = () => {
     setRequestData({ ...requestData, content: value });
   };
 
+  // TODO : 시작예정일 예외처리
   const dateValueOnChangeHandler = (value: any) => {
-    const year = value.year();
-    const month = addZero(value.month());
-    const date = addZero(value.date());
+    const year = value?.year() as string;
+    const month = addZero(value?.month()) as string;
+    const date = addZero(value?.date()) as string;
     setRequestData({ ...requestData, start_date: `${year}-${month}-${date}` });
   };
 
@@ -157,6 +155,7 @@ const PostInfo: NextPage = () => {
     if (errorKey) {
       showErrorToast(errorKey);
     } else {
+      console.log('성공');
       // api
     }
   };
@@ -166,6 +165,13 @@ const PostInfo: NextPage = () => {
     const keyArray: Array<string> = Object.keys(requestData);
 
     keyArray.some((key) => {
+      if (key === 'start_date') {
+        const isNan = startDateIsNanIsUndefinedCheck(requestData[key]);
+        if (isNan) {
+          resultKey = 'error_start_date';
+          return true;
+        }
+      }
       if (requestData[key].length < 1) {
         resultKey = key;
         return true;
@@ -201,6 +207,9 @@ const PostInfo: NextPage = () => {
       case 'start_date':
         message = '시작일을 입력해주세요!';
         break;
+      case 'error_start_date':
+        message = '시작일을 알맞은 형태에 맞게 작성해주세요!';
+        break;
       case 'contact':
         message = '연락 주소를 입력해주세요!';
         break;
@@ -209,6 +218,21 @@ const PostInfo: NextPage = () => {
     toast.error(message);
   };
 
+  //nan이랑 un
+  const startDateIsNanIsUndefinedCheck = (startDate: string): boolean => {
+    if (
+      NaNOrUndefinedIncludesString(startDate, 'NaN') ||
+      NaNOrUndefinedIncludesString(startDate, 'undefined')
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const NaNOrUndefinedIncludesString = (data: string, type: string) => {
+    const isCheck = data.replaceAll('-', '').includes(type);
+    return isCheck;
+  };
   // TODO: section 별로 컴포넌트 화
   return (
     <>
@@ -303,7 +327,7 @@ const PostInfo: NextPage = () => {
             <div className="mt-[16px]">
               <Editor
                 value={requestData.content}
-                onChange={(e: string) => contentOnChangeHandler(e)}
+                onChange={(e) => contentOnChangeHandler(e)}
               />
             </div>
           </section>
