@@ -25,7 +25,7 @@ const RecruitCard: NextPage = () => {
     <div className="flex-initial">
       <ul className="flex flex-wrap justify-center items-center gap-[2.8rem] p-0">
         {project.map((items) => (
-          <Link key={items.id} href="/recruit/LinkSample">
+          <Link key={items.id} href={`/post/detail/${items.id}`}>
             <a className=" hover:scale-[1.03] duration-300 cursor-pointer px-10 pt-20  flex box-border justify-center flex-col w-[370px] h-[450px] rounded-3xl border-gray-300 border-[3px] border-solid">
               <li className="p-0 m-0">
                 <div className="flex gap-3.5 text-lg text-neutral-400 ">
