@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 import { IoArrowBack as Back } from 'react-icons/io5';
 import { FcLinux as Penguin } from 'react-icons/fc';
