@@ -1,5 +1,3 @@
-import RecruitCard from 'pages/recruit/RecruitCard';
-
 export function MyPageForm() {
   return (
     <section className="pt-20">
