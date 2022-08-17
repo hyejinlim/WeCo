@@ -218,19 +218,15 @@ const PostInfo: NextPage = () => {
     toast.error(message);
   };
 
-  //nan이랑 un
   const startDateIsNanIsUndefinedCheck = (startDate: string): boolean => {
-    if (
-      NaNOrUndefinedIncludesString(startDate, 'NaN') ||
-      NaNOrUndefinedIncludesString(startDate, 'undefined')
-    ) {
+    if (NaNOrUndefinedIncludesString(startDate)) {
       return true;
     }
     return false;
   };
 
-  const NaNOrUndefinedIncludesString = (data: string, type: string) => {
-    const isCheck = data.replaceAll('-', '').includes(type);
+  const NaNOrUndefinedIncludesString = (data: string) => {
+    const isCheck = data.includes('NaN') || data.includes('undefined');
     return isCheck;
   };
   // TODO: section 별로 컴포넌트 화
