@@ -27,39 +27,41 @@ const PostDetail = () => {
           <Back size="36" onClick={handleBack} className="text-gray-500" />
         </div>
         {/* title */}
-        <div className="text-5xl sm:text-3xl font-bold mt-12">{title}</div>
+        <div className="text-5xl sm:text-3xl xs:text-2xl font-bold mt-12">
+          {title}
+        </div>
         {/* profile */}
         <div className="flex items-center py-8 text-lg gap-4 border-b-2">
           <div className="font-bold pr-4 border-r-2">네네오</div>
           <div className="text-gray-500">2022.08.14</div>
         </div>
         {/* info */}
-        <div className="grid grid-cols-2 sm:grid-cols-1 sm:grid-flow-row gap-6 py-12">
-          <div className="text-xl font-bold">
+        <div className="grid grid-cols-2 sm:grid-cols-1 sm:grid-flow-row gap-6 sm:gap-4 py-12">
+          <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">모집 구분</span>
             <span>프로젝트</span>
           </div>
-          <div className="text-xl font-bold">
+          <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">진행 방식</span>
             <span>오프라인</span>
           </div>
-          <div className="text-xl font-bold">
+          <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">모집 인원</span>
             <span>10명</span>
           </div>
-          <div className="text-xl font-bold">
+          <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">시작 예정</span>
             <span>2022.08.17</span>
           </div>
-          <div className="text-xl font-bold">
+          <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">연락 방법</span>
             <span>카카오톡 오픈채팅</span>
           </div>
-          <div className="text-xl font-bold">
+          <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">예상 기간</span>
             <span>3개월</span>
           </div>
-          <div className="text-xl font-bold flex">
+          <div className="text-xl sm:text-base font-bold flex items-center">
             <span className="text-gray-500 pr-4">사용 언어</span>
             <span className="flex gap-1">
               {skills?.map((skill) => (
@@ -116,7 +118,7 @@ const PostDetail = () => {
           </div>
         </div>
         {/* recomment post */}
-        <div className="absolute left-full top-96">
+        <div className="absolute left-full top-96 2xl:hidden">
           <div className="flex items-center mb-4">
             <div className="w-0 h-10 border-2 border-blue-500 bg-blue-500 mr-2" />
             <div className="whitespace-pre-wrap">
