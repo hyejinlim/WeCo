@@ -23,7 +23,9 @@ export function ScrollTopButton() {
   };
   return (
     <div
-      className={ScrollY === 0 ? 'hidden' : 'fixed right-4 bottom-4 w-16 h-16'}
+      className={
+        ScrollY === 0 ? 'hidden' : 'fixed right-4 bottom-4 w-16 h-16 sm:hidden'
+      }
     >
       <Image
         className="hover:cursor-pointer hover:scale-110 ease-in-out duration-200"

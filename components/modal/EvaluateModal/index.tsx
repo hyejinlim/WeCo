@@ -12,7 +12,7 @@ export function EvaluateModal() {
         <EvaluateForm setModalOpen={setModalOpen} />
       ) : (
         <div
-          className="fixed left-6 bottom-6  w-16 h-16"
+          className="fixed left-6 bottom-6  w-16 h-16 sm:hidden"
           onClick={() => setModalOpen(true)}
         >
           <Image

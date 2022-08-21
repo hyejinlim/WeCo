@@ -7,7 +7,7 @@ export function SkillSelect() {
   const [currentTab, setCurrentTab] = useState<number>(0);
   const [returnitem, setReturnItem] = useState<string[]>([]);
   return (
-    <section className="max-w-7xl w-full py-0 px-4 my-28 mx-auto">
+    <section className="sm:hidden max-w-7xl w-full py-0 px-4 my-28 mx-auto">
       <SkillCategory item={currentTab} setItem={setCurrentTab} />
       <SkillSelectList
         item={currentTab}
