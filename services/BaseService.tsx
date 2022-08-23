@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 const instance = axios.create({
-  // baseURL: 'http://hlcc.shop',
+  // baseURL: 'http://hlcc.shop:8000/',
   baseURL: 'http://localhost:3000',
   timeout: 5000,
   headers: { Accept: '*/*', 'Content-Type': 'application/json' },
@@ -35,7 +35,7 @@ instance.interceptors.response.use(
 // header에 token 셋팅
 export const setAuthToken = (token: string) => {
   console.log('>>>>setAuthToken:' + token);
-  instance.defaults.headers.common['Authorization'] = token;
+  instance.defaults.headers.common['X-Auth-Token'] = token;
   // LocalStore.setAuthToken(token);
   // SessionStore.setAuthToken(token);
 };
