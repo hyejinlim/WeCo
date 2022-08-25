@@ -32,13 +32,17 @@ export function SliderForm({
               </button>
 
               <div></div>
-              <h2 className="inline-block text-4xl font-bold p-0 mx-0 my-2.5">
+              <h2 className="md:text-3xl sm:text-2xl inline-block text-4xl font-bold p-0 mx-0 my-2.5">
                 {h2Text}
               </h2>
-              <span className="text-4xl">{SubspanText}</span>
-              <span className="block text-xl">{spanText}</span>
+              <span className="md:text-3xl sm:text-2xl text-4xl">
+                {SubspanText}
+              </span>
+              <span className="md:text-lg sm:text-base block text-xl">
+                {spanText}
+              </span>
             </div>
-            <div className="flex-1 flex justify-center items-center">
+            <div className="sm:hidden flex-1 flex justify-center items-center">
               <Image src={img} width="260" height="260" />
             </div>
           </div>
