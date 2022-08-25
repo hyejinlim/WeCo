@@ -1,5 +1,5 @@
 import { MainHeader } from 'components/Header';
-import { EvaluateModal } from 'components/modal/EvaluateModal';
+import { EvaluateModal } from 'components/Modal/EvaluateModal';
 import { SkillSelect } from 'components/Skill';
 import { MainSlider } from 'components/Slider';
 import type { NextPage } from 'next';
