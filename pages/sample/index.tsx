@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RegisterModal from '../../components/Modal/RegisterModal';
+import RegisterModal from 'components/Modal/RegisterModal';
 /**
  * 로그인 모달창을 확인하기 위한 페이지입니다.
  */
