@@ -1,10 +1,16 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
-
+import { getCookie } from 'utils/common';
+import * as LocalStorage from '../stores/LocalStore';
+import * as SessionStorage from '../stores/SessionStore';
 const instance = axios.create({
-  // baseURL: 'http://hlcc.shop:8000/',
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://hlcc.shop:8000/',
+  //baseURL: 'http://localhost:3000',
   timeout: 5000,
-  headers: { Accept: '*/*', 'Content-Type': 'application/json' },
+  headers: {
+    Accept: '*/*',
+    'Content-Type': 'application/json',
+    'X-Auth-Token': getCookie('accessToken'),
+  },
 });
 
 instance.interceptors.request.use(
@@ -19,7 +25,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
     if (response.status === 200) {
-      return response.data;
+      return response;
     } else {
       if (response.status === 401) {
         // common error
@@ -34,10 +40,9 @@ instance.interceptors.response.use(
 
 // header에 token 셋팅
 export const setAuthToken = (token: string) => {
-  console.log('>>>>setAuthToken:' + token);
   instance.defaults.headers.common['X-Auth-Token'] = token;
-  // LocalStore.setAuthToken(token);
-  // SessionStore.setAuthToken(token);
+  // LocalStorage.setAuthToken(token);
+  // SessionStorage.setAuthToken(token);
 };
 
 export const ajaxGet = async <T = any,>(
