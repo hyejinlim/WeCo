@@ -1,12 +1,9 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { ajaxPost, setAuthToken } from 'services/BaseService';
+import { setAuthToken } from 'services/BaseService';
 import { useEffect } from 'react';
-import * as LocalStorage from '../stores/LocalStore';
 import { tempAuthLogin } from 'services/LoginService';
-import cookie from 'react-cookies';
-import { Cookies } from 'react-cookie';
 import { setCookie, isCookieExist } from 'utils/common';
 
 function MyApp({ Component, pageProps }: AppProps) {
