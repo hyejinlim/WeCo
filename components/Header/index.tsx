@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Router from 'next/router';
 import { memo } from 'react';
-import { HeaderRouter } from './HeaderRouter';
+import Menu from './Menu';
 
 function MainHeader() {
   return (
@@ -13,8 +13,8 @@ function MainHeader() {
         onClick={() => Router.push('/')}
       />
       <div className="flex gap-8 items-center">
-        <HeaderRouter route="write" text="새글쓰기" />
-        <HeaderRouter route="login" text="로그인" />
+        <Menu routeName="write" text="새글쓰기" />
+        <Menu routeName="login" text="로그인" />
       </div>
     </nav>
   );
