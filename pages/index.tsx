@@ -1,4 +1,4 @@
-import MainHeader from 'components/Header';
+import Header from 'components/Header';
 import { EvaluateModal } from 'components/Modal/EvaluateModal';
 import { SkillSelect } from 'components/Skill';
 import { MainSlider } from 'components/Slider';
@@ -8,7 +8,7 @@ import RecruitMain from './recruit';
 function Home() {
   return (
     <>
-      <MainHeader />
+      <Header />
       <MainSlider />
       <SkillSelect />
       <RecruitMain />

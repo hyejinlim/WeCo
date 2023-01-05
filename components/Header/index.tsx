@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { memo } from 'react';
 import Menu from './Menu';
 
-function MainHeader() {
+function Header() {
   return (
     <nav className="m-auto max-w-7xl flex justify-between items-center h-20 py-0 px-2.5">
       <Image
@@ -20,4 +20,4 @@ function MainHeader() {
   );
 }
 
-export default memo(MainHeader);
+export default memo(Header);
