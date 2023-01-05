@@ -1,4 +1,4 @@
-import { MainHeader } from 'components/Header';
+import MainHeader from 'components/Header';
 import { EvaluateModal } from 'components/Modal/EvaluateModal';
 import { SkillSelect } from 'components/Skill';
 import { MainSlider } from 'components/Slider';

@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Router from 'next/router';
+import { memo } from 'react';
 import { HeaderRouter } from './HeaderRouter';
 
-export function MainHeader() {
+function MainHeader() {
   return (
     <nav className="m-auto max-w-7xl flex justify-between items-center h-20 py-0 px-2.5">
       <Image
@@ -18,3 +19,5 @@ export function MainHeader() {
     </nav>
   );
 }
+
+export default memo(MainHeader);
