@@ -1,7 +1,7 @@
 import Header from 'components/Header';
+import MainSlider from 'components/Slider';
 import { EvaluateModal } from 'components/Modal/EvaluateModal';
 import { SkillSelect } from 'components/Skill';
-import { MainSlider } from 'components/Slider';
 import { memo } from 'react';
 import RecruitMain from './recruit';
 
