@@ -1,29 +1,29 @@
 import Image from 'next/image';
-import { useState } from 'react';
-import { ScrollTopButton } from '../../Button/ScrollTopButton';
-import { EvaluateForm } from './EvaluateForm/EvaluateForm';
+import { memo } from 'react';
+import Rating from './components/Rating';
 
-export function EvaluateModal() {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-
+function EvaluateModal({ onCancel }: any) {
+  const handleCancel = () => {
+    onCancel && onCancel();
+  };
   return (
-    <>
-      {modalOpen ? (
-        <EvaluateForm setModalOpen={setModalOpen} />
-      ) : (
-        <div
-          className="fixed left-6 bottom-6  w-16 h-16 sm:hidden"
-          onClick={() => setModalOpen(true)}
-        >
-          <Image
-            src="/img/eval.png"
-            width="50"
-            height="50"
-            className="hover:cursor-pointer hover:scale-110 ease-in-out duration-200"
-          />
-        </div>
-      )}
-      <ScrollTopButton />
-    </>
+    <div className="flex flex-col bg-white fixed left-6 bottom-6 w-[32rem] rounded-3xl border border-gray-600 p-4">
+      <div className="flex justify-end">
+        <Image
+          src="/img/x.png"
+          width="15"
+          height="15"
+          className="cursor-pointer"
+          onClick={handleCancel}
+        />
+      </div>
+      <div className="flex flex-col text-center">
+        <div className="font-bold text-3xl">WECO 에 만족하셨나요?</div>
+        <div className="mt-1">더 좋은 서비스를 위해, 평가를 남겨주세요!</div>
+      </div>
+      <Rating onCancel={onCancel} />
+    </div>
   );
 }
+
+export default memo(EvaluateModal);
