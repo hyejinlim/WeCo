@@ -9,6 +9,14 @@ import * as R from 'ramda';
 function RecruitList() {
   const [data, setData] = useState<Recruit[]>([]);
 
+  const handleCategoryChange = (type: string) => {
+    if (type === 'all') {
+      setData(RECRUIT_DATA);
+      return;
+    }
+    const newData = R.filter((val: Recruit) => val.type === type)(RECRUIT_DATA);
+    setData(newData);
+  };
   const handleToggleChange = (checked: boolean) => {
     const newData = R.filter((val: Recruit) => val.isClosed === !!!checked)(
       RECRUIT_DATA
@@ -23,7 +31,7 @@ function RecruitList() {
   return (
     <div className="max-w-7xl w-full mx-auto px-4 pb-20">
       <div className="flex items-center mb-8 justify-between">
-        <RecruitCategory />
+        <RecruitCategory onCategoryChange={handleCategoryChange} />
         <div className="flex items-center">
           <RecruitToggle
             label="모집 중만 보기"
