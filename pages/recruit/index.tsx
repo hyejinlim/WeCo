@@ -16,7 +16,7 @@ function RecruitList() {
   }, [RECRUIT_DATA]);
 
   return (
-    <div className="max-w-7xl w-full mx-auto px-4">
+    <div className="max-w-7xl w-full mx-auto px-4 pb-20">
       <div className="flex items-center mb-8 justify-between">
         <RecruitCategory />
         <div className="flex items-center">
