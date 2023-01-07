@@ -1,10 +1,10 @@
+import { memo } from 'react';
 import Header from 'components/Header';
 import MainSlider from 'components/Slider';
 import { SkillSelect } from 'components/Skill';
 import ScrollTopButton from 'components/Button/ScrollTopButton';
 import EvaluateButton from 'components/Button/EvaluateButton';
-import { memo } from 'react';
-import RecruitMain from './recruit';
+import RecruitList from './recruit';
 
 function Home() {
   return (
@@ -12,7 +12,7 @@ function Home() {
       <Header />
       <MainSlider />
       <SkillSelect />
-      <RecruitMain />
+      <RecruitList />
       <EvaluateButton />
       <ScrollTopButton />
     </>

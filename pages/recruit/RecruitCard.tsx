@@ -1,82 +1,74 @@
-import { useState } from 'react';
-import type { NextPage } from 'next';
+import { memo } from 'react';
 import Link from 'next/link';
-import { projectData } from '../../data/SampleData.js';
+import dayjs from 'dayjs';
 import { AiOutlineEye, AiOutlineComment } from 'react-icons/ai';
+import * as R from 'ramda';
+import { Recruit } from './types';
 
-interface SampleProject {
-  id: number;
-  type: string;
-  year: string;
-  title: string;
-  tag: string[];
-  skills: string[];
-  write: string;
-  view: string;
-  comment: string;
-  contact: string;
-  url: string;
-  explan: string;
-}
+type Props = {
+  data: Recruit[];
+};
 
-const RecruitCard: NextPage = () => {
-  const [project, setProject] = useState<SampleProject[]>(projectData);
+const addIndexMap = R.addIndex(R.map);
+
+function RecruitCard({ data }: Props) {
   return (
-    <div className="flex-initial">
-      <ul className="flex flex-wrap justify-center items-center gap-[2.8rem] p-0">
-        {project.map((items) => (
-          <Link key={items.id} href={`/post/detail/${items.id}`}>
-            <a className=" hover:scale-[1.03] duration-300 cursor-pointer px-10 pt-20  flex box-border justify-center flex-col w-[370px] h-[450px] rounded-3xl border-gray-300 border-[3px] border-solid">
+    <ul className="flex flex-wrap gap-6 p-0">
+      {addIndexMap((item: any, index: number) => {
+        const { id, startDate, title, tag, language, author, views, comments } =
+          item;
+        return (
+          <Link key={index} href={`/post/detail/${id}`}>
+            <a className="hover:scale-[1.03] duration-300 cursor-pointer px-6 pt-16 pb-12 flex box-border justify-center flex-col w-[400px] h-[450px] rounded-3xl border-gray-300 border-2 border-solid">
               <li className="p-0 m-0">
-                <div className="flex gap-3.5 text-lg text-neutral-400 ">
-                  <p>시작 예정일 |</p>
-                  <p>{items.year}</p>
+                <div className="flex gap-3.5 text-lg text-neutral-400">
+                  <p>시작 예정일 | {dayjs(startDate).format('YYYY-MM-DD')}</p>
                 </div>
-                <h1 className="my-[16px] min-h-[67px] text-2xl line-clamp-2">
-                  {items.title}
+                <h1 className="my-4 min-h-[67px] text-2xl line-clamp-2">
+                  {title}
                 </h1>
-                <ul className="flex gap-1 text-lg my-[30px] text-neutral-400">
-                  {items.tag.map((item) => (
-                    <li key={item} className="p-0 m-0">
-                      {item}
-                    </li>
-                  ))}
+                <ul className="flex gap-1 text-lg mt-6 mb-10 text-neutral-400">
+                  {R.map((item: string) => {
+                    return <li key={item}>{`#${item}`}</li>;
+                  })(tag)}
                 </ul>
-                <ul className="flex gap-4 mb-9">
-                  {/* 스킬 이미지는 어떻게 처리할 것인가 프론트에서 저장 아니면 서버에서 url내려주는지? skill이름도 같이 주는지 alt필요 */}
-                  {items.skills.map((skills, idx) => (
-                    <li key={idx} className="w-[48px] h-[48px]">
-                      <img src={skills} alt="" />
-                    </li>
-                  ))}
+                <ul className="flex gap-2 mb-9">
+                  {addIndexMap((item: any, index: number) => {
+                    return (
+                      <li key={index} className="w-12 h-12">
+                        <img
+                          src={`https://holaworld.io/images/languages/${item}.svg`}
+                        />
+                      </li>
+                    );
+                  })(language)}
                 </ul>
-                <section className="flex border-solid border-gray-300 border-t-[1px] pt-[16px] justify-between">
+                <section className="flex border-solid border-gray-300 border-t pt-4 justify-between">
                   <div className="flex items-center">
                     <img
-                      className="w-[36px] h-[36px] mr-[12px]"
+                      className="w-9 h-9 mr-3"
                       src="https://hola-post-image.s3.ap-northeast-2.amazonaws.com/default.PNG"
-                      alt=""
-                    ></img>
-                    <div className="text-lg font-normal">{items.write}</div>
+                    />
+                    <div className="text-lg font-normal">{author}</div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="flex items-center gap-1 ">
-                      <AiOutlineEye className="w-[28px] h-[28px]" />
-                      <p>{items.view}</p>
+                  <div className="flex gap-4 text-neutral-400">
+                    <div className="flex items-center gap-1">
+                      <AiOutlineEye className="w-7 h-7" />
+                      <p>{views}</p>
                     </div>
                     <div className="flex items-center gap-1">
-                      <AiOutlineComment className=" w-[28px] h-[28px]" />
-                      <p>{items.comment}</p>
+                      <AiOutlineComment className="w-7 h-7" />
+                      <p>{comments}</p>
                     </div>
                   </div>
                 </section>
               </li>
             </a>
           </Link>
-        ))}
-      </ul>
-    </div>
+        );
+      })(data)}
+    </ul>
   );
-};
+}
 
-export default RecruitCard;
+export default memo(RecruitCard);

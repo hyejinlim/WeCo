@@ -1,17 +1,34 @@
-import type { NextPage } from 'next';
-import React from 'react';
+import { memo, useEffect, useState } from 'react';
+import RecruitToggle from 'components/toggle/RecruitToggle';
+import RecruitCategory from './RecruitCategory';
 import RecruitCard from './RecruitCard';
-import RecruitHeader from './RecruitHeader';
+import { Recruit } from './types';
+import { RECRUIT_DATA } from './constants';
 
-const RecruitMain: NextPage = () => {
+function RecruitList() {
+  const [data, setData] = useState<Recruit[]>([]);
+  const handleToggleChange = (checked: boolean) => {
+    console.log('toogle checked', checked);
+  };
+
+  useEffect(() => {
+    setData(RECRUIT_DATA);
+  }, [RECRUIT_DATA]);
+
   return (
-    <>
-      <div className="px-0 py-[10px] mx-auto my-0 flex-col max-w-[1200px] w-[100%] min-h-[60rem]">
-        <RecruitHeader />
-        <RecruitCard />
+    <div className="max-w-7xl w-full mx-auto px-4">
+      <div className="flex items-center mb-8 justify-between">
+        <RecruitCategory />
+        <div className="flex items-center">
+          <RecruitToggle
+            label="모집 중만 보기"
+            onToggleChange={handleToggleChange}
+          />
+        </div>
       </div>
-    </>
+      <RecruitCard data={data} />
+    </div>
   );
-};
+}
 
-export default RecruitMain;
+export default memo(RecruitList);
