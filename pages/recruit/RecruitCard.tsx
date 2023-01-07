@@ -36,9 +36,7 @@ function RecruitCard({ data }: Props) {
                   {addIndexMap((item: any, index: number) => {
                     return (
                       <li key={index} className="w-12 h-12">
-                        <img
-                          src={`https://holaworld.io/images/languages/${item}.svg`}
-                        />
+                        <img src={`/img/${item}.svg`} />
                       </li>
                     );
                   })(language)}
