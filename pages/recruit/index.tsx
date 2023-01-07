@@ -4,11 +4,16 @@ import RecruitCategory from './RecruitCategory';
 import RecruitCard from './RecruitCard';
 import { Recruit } from './types';
 import { RECRUIT_DATA } from './constants';
+import * as R from 'ramda';
 
 function RecruitList() {
   const [data, setData] = useState<Recruit[]>([]);
+
   const handleToggleChange = (checked: boolean) => {
-    console.log('toogle checked', checked);
+    const newData = R.filter((val: Recruit) => val.isClosed === !!!checked)(
+      RECRUIT_DATA
+    );
+    setData(newData);
   };
 
   useEffect(() => {
