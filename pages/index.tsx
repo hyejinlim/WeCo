@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import Header from 'components/Header';
 import MainSlider from 'components/Slider';
-import { SkillSelect } from 'components/Skill';
+import LanguageSelect from 'components/Language';
 import ScrollTopButton from 'components/Button/ScrollTopButton';
 import EvaluateButton from 'components/Button/EvaluateButton';
 import RecruitList from './recruit';
@@ -11,7 +11,7 @@ function Home() {
     <>
       <Header />
       <MainSlider />
-      <SkillSelect />
+      <LanguageSelect />
       <RecruitList />
       <EvaluateButton />
       <ScrollTopButton />
