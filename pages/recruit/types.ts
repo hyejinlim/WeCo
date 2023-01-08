@@ -15,4 +15,5 @@ export type Recruit = {
   views: string;
   comments: string;
   isClosed: boolean;
+  explain: string;
 };
