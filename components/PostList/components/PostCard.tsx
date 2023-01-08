@@ -3,15 +3,15 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 import { AiOutlineEye, AiOutlineComment } from 'react-icons/ai';
 import * as R from 'ramda';
-import { Recruit } from './types';
+import { Post } from '../types';
 
 type Props = {
-  data: Recruit[];
+  data: Post[];
 };
 
 const addIndexMap = R.addIndex(R.map);
 
-function RecruitCard({ data }: Props) {
+function PostCard({ data }: Props) {
   return (
     <ul className="flex flex-wrap gap-6 p-0">
       {addIndexMap((item: any, index: number) => {
@@ -69,4 +69,4 @@ function RecruitCard({ data }: Props) {
   );
 }
 
-export default memo(RecruitCard);
+export default memo(PostCard);

@@ -1,4 +1,4 @@
-import { Category, Recruit } from './types';
+import { Category, Post } from './types';
 
 export const CATEGORY_LIST: Category[] = [
   {
@@ -18,7 +18,7 @@ export const CATEGORY_LIST: Category[] = [
   },
 ];
 
-export const RECRUIT_DATA: Recruit[] = [
+export const POST_DATA: Post[] = [
   {
     id: 1,
     type: 'project',

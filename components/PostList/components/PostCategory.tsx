@@ -1,13 +1,13 @@
 import { memo, useState } from 'react';
 import * as R from 'ramda';
-import { CATEGORY_LIST } from './constants';
-import { Category } from './types';
+import { CATEGORY_LIST } from '../constants';
+import { Category } from '../types';
 
 type Props = {
   onCategoryChange: (type: string) => void;
 };
 
-function RecruitCategory({ onCategoryChange }: Props) {
+function PostCategory({ onCategoryChange }: Props) {
   const [type, setType] = useState<string>('all');
   const handleCategoryChange = (category: Category) => {
     const { value } = category;
@@ -35,4 +35,4 @@ function RecruitCategory({ onCategoryChange }: Props) {
   );
 }
 
-export default memo(RecruitCategory);
+export default memo(PostCategory);

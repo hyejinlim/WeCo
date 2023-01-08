@@ -4,7 +4,7 @@ import MainSlider from 'components/Slider';
 import LanguageSelect from 'components/Language';
 import ScrollTopButton from 'components/Button/ScrollTopButton';
 import EvaluateButton from 'components/Button/EvaluateButton';
-import RecruitList from './recruit';
+import PostList from '../components/PostList';
 
 function Home() {
   return (
@@ -12,7 +12,7 @@ function Home() {
       <Header />
       <MainSlider />
       <LanguageSelect />
-      <RecruitList />
+      <PostList />
       <EvaluateButton />
       <ScrollTopButton />
     </>

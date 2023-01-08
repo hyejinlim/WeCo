@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 import { IoArrowBack as Back } from 'react-icons/io5';
 import { FcLinux as Penguin } from 'react-icons/fc';
 import Header from 'components/Header';
-import { RECRUIT_DATA } from 'pages/recruit/constants';
+import { POST_DATA } from 'components/PostList/constants';
 
 function PostDetail() {
   const router = useRouter();
   const { query } = router;
   const { did } = query;
   const data = R.find((item: any) => item.id === parseInt(did as string))(
-    RECRUIT_DATA
+    POST_DATA
   );
   const { title, language, explan } = data || {};
 

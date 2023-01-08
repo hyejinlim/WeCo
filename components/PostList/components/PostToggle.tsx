@@ -4,7 +4,7 @@ type Props = {
   label?: ReactNode;
   onToggleChange: (checked: boolean) => void;
 };
-function RecruitToggle({ label = '', onToggleChange }: Props) {
+function PostToggle({ label = '', onToggleChange }: Props) {
   const [isChecked, setIsChecked] = useState<boolean>(true);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,4 +35,4 @@ function RecruitToggle({ label = '', onToggleChange }: Props) {
   );
 }
 
-export default memo(RecruitToggle);
+export default memo(PostToggle);

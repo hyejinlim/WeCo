@@ -4,7 +4,7 @@ export type Category = {
   img: string;
 };
 
-export type Recruit = {
+export type Post = {
   id: number;
   type: string;
   startDate: string;
