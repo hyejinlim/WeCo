@@ -1,20 +1,22 @@
-import { MainHeader } from 'components/Header';
-import { EvaluateModal } from 'components/Modal/EvaluateModal';
-import { SkillSelect } from 'components/Skill';
-import { MainSlider } from 'components/Slider';
-import type { NextPage } from 'next';
-import RecruitMain from './recruit';
+import { memo } from 'react';
+import Header from 'components/Header';
+import MainSlider from 'components/Slider';
+import LanguageSelect from 'components/Language';
+import ScrollTopButton from 'components/Button/ScrollTopButton';
+import EvaluateButton from 'components/Button/EvaluateButton';
+import PostList from '../components/PostList';
 
-const Home: NextPage = () => {
+function Home() {
   return (
     <>
-      <MainHeader />
+      <Header />
       <MainSlider />
-      <SkillSelect />
-      <RecruitMain />
-      <EvaluateModal />
+      <LanguageSelect />
+      <PostList />
+      <EvaluateButton />
+      <ScrollTopButton />
     </>
   );
-};
+}
 
-export default Home;
+export default memo(Home);

@@ -1,26 +1,29 @@
-import React from 'react';
+import { Fragment, memo } from 'react';
+import * as R from 'ramda';
 import { useRouter } from 'next/router';
-
 import { IoArrowBack as Back } from 'react-icons/io5';
 import { FcLinux as Penguin } from 'react-icons/fc';
+import Header from 'components/Header';
+import { POST_DATA } from 'components/PostList/constants';
 
-import { MainHeader } from 'components/Header';
-import { projectData } from 'data/SampleData';
-
-const PostDetail = () => {
+function PostDetail() {
   const router = useRouter();
   const { query } = router;
   const { did } = query;
+  const data = R.find((item: any) => item.id === parseInt(did as string))(
+    POST_DATA
+  );
+  const { title, language, explan } = data || {};
 
-  const data = projectData.find(({ id }) => id === parseInt(did as string));
-  const { title, explan, skills } = data || {};
+  /**
+   * handlers
+   */
+  const handleBack = () => router.back();
 
-  const handleBack = () => {
-    router.back();
-  };
+  if (!data) return <Fragment />;
   return (
-    <>
-      <MainHeader />
+    <Fragment>
+      <Header />
       <div className="relative max-w-4xl mx-auto px-4 pt-4 pb-12">
         {/* back */}
         <div className="mt-12">
@@ -64,9 +67,11 @@ const PostDetail = () => {
           <div className="text-xl sm:text-base font-bold flex items-center">
             <span className="text-gray-500 pr-4">사용 언어</span>
             <span className="flex gap-1">
-              {skills?.map((skill) => (
-                <embed src={skill} width="36" height="36" />
-              ))}
+              {R.map((item: string) => {
+                return (
+                  <embed src={`/img/${item}.svg`} width="36" height="36" />
+                );
+              })(language)}
             </span>
           </div>
         </div>
@@ -139,8 +144,8 @@ const PostDetail = () => {
           </div>
         </div>
       </div>
-    </>
+    </Fragment>
   );
-};
+}
 
-export default React.memo(PostDetail);
+export default memo(PostDetail);
