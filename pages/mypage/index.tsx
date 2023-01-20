@@ -1,14 +1,14 @@
-import { MainHeader } from 'components/Header';
-import { MyPageForm } from 'components/Form/MyPageForm';
-import { NextPage } from 'next';
+import { memo } from 'react';
+import MyPageForm from 'components/Form/MyPageForm';
+import Header from 'components/Header';
 
-const MyPage: NextPage = () => {
+function MyPage() {
   return (
     <>
-      <MainHeader />
+      <Header />
       <MyPageForm />
     </>
   );
-};
+}
 
-export default MyPage;
+export default memo(MyPage);
