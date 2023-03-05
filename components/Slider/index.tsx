@@ -39,7 +39,7 @@ const slideData: any[] = [
 
 function MainSlider() {
   return (
-    <Swiper {...settings}>
+    <Swiper {...settings} className="!z-0">
       {R.addIndex(R.map)((item: any, index: number) => {
         return (
           <SwiperSlide key={index}>
