@@ -13,8 +13,8 @@ function Header() {
         onClick={() => Router.push('/')}
       />
       <div className="flex gap-8 items-center">
-        <Menu routeName="write" text="새글쓰기" />
-        <Menu routeName="login" text="로그인" />
+        <Menu routeName="post" text="새글쓰기" />
+        <Menu routeName="login" text="로그인" modal />
         <Menu routeName="mypage" text="MY" />
       </div>
     </nav>
