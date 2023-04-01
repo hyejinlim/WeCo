@@ -1,19 +1,14 @@
-import { MainHeader } from 'components/Header';
-import { NextPage } from 'next';
-import React from 'react';
-import FooterButton from './FooterButton';
-import PostInfo from './PostInfo';
+import { memo } from 'react';
+import Header from 'components/Header';
+import PostWrite from '../../components/PostWrite';
 
-const postMain: NextPage = () => {
-
-
+function Post() {
   return (
     <>
-      <MainHeader />
-      <PostInfo />
-      {/* <FooterButton /> */}
+      <Header />
+      <PostWrite />
     </>
   );
-};
+}
 
-export default postMain;
+export default memo(Post);

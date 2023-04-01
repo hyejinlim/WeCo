@@ -1,38 +1,28 @@
-import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState, useRef, useId } from 'react';
+import React, { useEffect, useState, useId, memo } from 'react';
 import { postInfoData } from '../../data/postInfo.js';
-
 import dayjs from 'dayjs';
 import { addZero } from '../../utils/common';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import SelectForm from '../../components/select/SelectForm';
-import DatePickerForm from '../../components/picker/DatePickerForm';
+import SelectForm from '../select/SelectForm';
+import DatePickerForm from '../picker/DatePickerForm';
 import PostHeader from 'components/Header/PostHeader';
 import PostButton from 'components/Button/PostButton';
+import * as R from 'ramda';
 
-const Editor = dynamic(() => import('../../components/editor/Editor'), {
+const Editor = dynamic(() => import('../editor/Editor'), {
   ssr: false,
 });
 
-interface Option {
+type Option = {
   value: string;
   label: string;
   type: string;
   disabled?: boolean;
-}
-interface PostInfo {
-  id: number;
-  title: string | undefined;
-  place_holder: string;
-  isMulti: boolean;
-  options: Array<Option[]>;
-}
+};
 
-interface RequestDataType {
-  [key: string]: string | Array<string>;
+type RequestDataProps = {
   title: string;
   content: string;
   recruit_type: string;
@@ -43,11 +33,12 @@ interface RequestDataType {
   contact: string;
   start_date: string;
   skills: Array<string>;
-}
+  [key: string]: any;
+};
 
-const PostInfo: NextPage = () => {
+function PostWrite() {
   const [postData, setPostData] = useState(postInfoData);
-  const [requestData, setRequestData] = useState<RequestDataType>({
+  const [requestData, setRequestData] = useState<RequestDataProps>({
     title: '',
     content: '',
     recruit_type: '',
@@ -60,33 +51,15 @@ const PostInfo: NextPage = () => {
     skills: [],
   });
 
-  useEffect(() => {
-    // TODO: style접근 방법 찾기 현재 react18에선 select라이브러리 호환 안맞음
-    selectComponentStyle();
-    window.addEventListener('resize', selectComponentStyle);
-    return () => {
-      window.removeEventListener('resize', selectComponentStyle);
-    };
-  }, []);
-
-  useEffect(() => {
-    let updatePostData;
-    if (requestData.skills.length > 4) {
-      updatePostData = skillIsDisabledUpdate(true);
-    } else {
-      updatePostData = skillIsDisabledUpdate(false);
-    }
-    setPostData(updatePostData);
-  }, [requestData.skills]);
-
   const selectHandler = (data: any) => {
     const [value, type] = searchSkillValue(data);
     setRequestData({ ...requestData, [type]: value });
   };
 
-  const titleOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-    setRequestData({ ...requestData, title: title });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    setRequestData({ ...requestData, name: value });
   };
 
   const contentOnChangeHandler = (value: string) => {
@@ -150,7 +123,7 @@ const PostInfo: NextPage = () => {
     return [value, type];
   };
 
-  const onSubmitHandler = () => {
+  const handleClick = () => {
     const errorKey = searchKey();
     if (errorKey) {
       showErrorToast(errorKey);
@@ -219,52 +192,63 @@ const PostInfo: NextPage = () => {
   };
 
   const startDateIsNanIsUndefinedCheck = (startDate: string): boolean => {
-    if (NaNOrUndefinedIncludesString(startDate)) {
-      return true;
-    }
+    if (R.isNil(startDate)) return true;
     return false;
   };
 
-  const NaNOrUndefinedIncludesString = (data: string) => {
-    const isCheck = data.includes('NaN') || data.includes('undefined');
-    return isCheck;
-  };
+  // const NaNOrUndefinedIncludesString = (data: string) => {
+  //   const isCheck = data.includes('NaN') || data.includes('undefined');
+  //   return isCheck;
+  // };
+
+  /**
+   * useEffect
+   */
+  useEffect(() => {
+    // TODO: style접근 방법 찾기 현재 react18에선 select라이브러리 호환 안맞음
+    selectComponentStyle();
+    window.addEventListener('resize', selectComponentStyle);
+    return () => {
+      window.removeEventListener('resize', selectComponentStyle);
+    };
+  }, []);
+  useEffect(() => {
+    const updatePostData = skillIsDisabledUpdate(requestData.skills.length > 4);
+    setPostData(updatePostData);
+  }, [requestData.skills]);
+
   // TODO: section 별로 컴포넌트 화
   return (
     <>
-      <div className="custom_md:w-[100%] flex flex-col w-[1024px] w-max-[1040px] mx-auto my-0 gap-[3.0rem] py-[60px] px-[16px]">
+      <div className="custom_md:w-full flex flex-col w-[1024px] w-max-[1040px] mx-auto my-0 gap-12 py-14 px-4">
         <section>
-          <PostHeader num={'1'} title={'프로젝트 기본 정보를 입력해 주세요.'} />
+          <PostHeader num={1} title="프로젝트 기본 정보를 입력해 주세요." />
           {postData.map((items, idx) => (
             <ul
               key={idx}
-              className={`${
-                idx === 4
-                  ? 'flex gap-4 sm:flex-col sm:-mt-[25px]'
-                  : 'flex gap-4 sm:flex-col mt-10 sm:mt-5'
+              className={`flex gap-4 sm:flex-col ${
+                idx === 4 ? 'sm:-mt-6' : 'mt-10 sm:mt-5'
               }`}
             >
-              {items.map((item) =>
+              {items.map((item, index) =>
                 item.uiType === 'default' ? (
-                  <>
-                    <li className="grow shrink basis-[0%]" key={item.id}>
-                      <label className="inline-block font-medium mb-[5px]">
-                        {item.title}
-                      </label>
-                      <SelectForm
-                        useId={() => useId()}
-                        options={item.options}
-                        isMulti={item.isMulti}
-                        placeHolder={item.place_holder}
-                        onChange={(e) => selectHandler(e)}
-                      />
-                    </li>
-                  </>
+                  <li className="grow shrink basis-[0%]" key={index}>
+                    <label className="inline-block font-medium mb-[5px]">
+                      {item.title}
+                    </label>
+                    <SelectForm
+                      useId={() => useId()}
+                      options={item.options}
+                      isMulti={item.isMulti}
+                      placeHolder={item.place_holder}
+                      onChange={(e) => selectHandler(e)}
+                    />
+                  </li>
                 ) : item.uiType === 'calendar' ? (
                   <li className="grow shrink basis-[0%]" key={item.id}>
                     <div className="flex">
-                      <div className="gap-3 w-[100%]">
-                        <div className="inline-block font-medium mb-[5px]">
+                      <div className="gap-3 w-full">
+                        <div className="inline-block font-medium mb-1">
                           {item.title}
                         </div>
                         <DatePickerForm
@@ -278,9 +262,9 @@ const PostInfo: NextPage = () => {
                   </li>
                 ) : item.uiType === 'custom' ? (
                   <li className="grow shrink basis-[0%]" key={item.id}>
-                    <div className="mt-[12px]">
+                    <div className="mt-3">
                       <input
-                        className="w-[100%] h-[56px] min-h-[56px] leading-10 pl-[16px] pr-[52px] py-[10px] border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                        className="w-full h-14 min-h-14 leading-10 pl-4 pr-12 py-3 border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                         type="text"
                         value={requestData.contact}
                         onChange={(e) =>
@@ -297,7 +281,7 @@ const PostInfo: NextPage = () => {
                   <li className="grow shrink basis-[0%]" key={item.id}>
                     <div>
                       <input
-                        className="w-[100%] h-[56px] min-h-[56px] leading-10 pl-[16px] pr-[52px] py-[10px] border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                        className="w-full h-14 min-h-14 leading-10 pl-4 pr-12 py-3 border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                         type="hidden"
                       />
                     </div>
@@ -308,17 +292,18 @@ const PostInfo: NextPage = () => {
           ))}
         </section>
         <section>
-          <PostHeader num={'2'} title={'프로젝트에 대해 소개해주세요.'} />
+          <PostHeader num={2} title="프로젝트에 대해 소개해주세요." />
           <section>
-            <label className="inline-block mb-[5px] font-bold" htmlFor="input">
+            <label className="inline-block mb-1 font-bold" htmlFor="input">
               제목
             </label>
             <input
-              className="w-[100%] h-[56px] min-h-[56px] leading-10 pl-[16px] pr-[52px] py-[10px] border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              name="title"
+              className="w-full h-14 min-h-14 leading-10 pl-4 pr-12 py-3 border-2 border-solid border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
               id="input"
               placeholder="글 제목을 입력해주세요!"
               value={requestData.title}
-              onChange={(e) => titleOnChangeHandler(e)}
+              onChange={handleChange}
             />
             <div className="mt-[16px]">
               <Editor
@@ -339,13 +324,13 @@ const PostInfo: NextPage = () => {
             buttonName="글 등록"
             backgroundColor="bg-black"
             textColor="text-white"
-            onClick={() => onSubmitHandler()}
+            onClick={handleClick}
           />
         </section>
       </div>
       <ToastContainer theme="colored" position="top-right" autoClose={2000} />
     </>
   );
-};
+}
 
-export default PostInfo;
+export default memo(PostWrite);
