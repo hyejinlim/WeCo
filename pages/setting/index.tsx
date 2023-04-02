@@ -1,14 +1,14 @@
-import { MainHeader } from 'components/Header';
+import { memo } from 'react';
+import Header from 'components/Header';
 import { SettingForm } from 'components/Form/SettingForm';
-import { NextPage } from 'next';
 
-const Setting: NextPage = () => {
+function Setting() {
   return (
     <>
-      <MainHeader />
+      <Header />
       <SettingForm />
     </>
   );
-};
+}
 
-export default Setting;
+export default memo(Setting);
