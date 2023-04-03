@@ -35,3 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 /.vscode
+
+# 환경변수
+.env
