@@ -4,7 +4,11 @@ import * as yup from 'yup';
 export const getRegisterFormSchema = () =>
   yupResolver(
     yup.object({
-      username: yup.string().required('Username을 정확하게 입력해주세요.'),
+      username: yup.string().required('Username을 입력해주세요.'),
+      email: yup
+        .string()
+        .email('이메일을 정확하게 입력해주세요.')
+        .required('이메일을 입력해주세요.'),
       password: yup
         .string()
         .trim()
