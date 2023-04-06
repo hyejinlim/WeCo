@@ -1,10 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
 import { getLoginFormSchema } from 'utils/validations/loginValidation';
-
 import SocialButton from 'components/Button/SocialButton';
 import ValidateMessage from 'components/ValidateMessage';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../../firebase/firebaseClient';
 
 type Props = {
   handleModalRoute: () => void;
@@ -32,6 +32,16 @@ const LoginForm = ({ handleModalRoute }: Props) => {
   };
   const handleLogin = () => {
     console.log('로그인 클릭');
+  };
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(auth, provider)
+      .then((data) => {
+        if (data.user) handleModalRoute();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   return (
     <>
@@ -62,13 +72,16 @@ const LoginForm = ({ handleModalRoute }: Props) => {
           >
             로그인
           </button>
-
+        </form>
+        <div className="max-w-sm mx-auto">
           <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
             <p className="text-center font-semibold mx-4 mb-0">OR</p>
           </div>
-
           <div className="flex justify-between">
-            <SocialButton src="/assets/google_logo.svg" />
+            <SocialButton
+              src="/assets/google_logo.svg"
+              onClick={handleGoogleLogin}
+            />
             <SocialButton
               src="/assets/github_logo.svg"
               backgroundColor="bg-black"
@@ -78,7 +91,7 @@ const LoginForm = ({ handleModalRoute }: Props) => {
               backgroundColor="bg-kakao"
             />
           </div>
-        </form>
+        </div>
       </div>
       <div className="text-center mt-4" onClick={handleModalRoute}>
         회원가입
