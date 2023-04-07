@@ -28,7 +28,7 @@ const RegisterForm = () => {
     const { name, value } = e.target;
     setValue(name, value, { shouldValidate: true });
   };
-  const handleRegister = (values: any) => {
+  const handleRegister = (values: FormTypes) => {
     const { email, password, username } = values;
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
