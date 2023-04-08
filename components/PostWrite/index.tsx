@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic';
 import { memo, useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import 'react-toastify/dist/ReactToastify.css';
 import * as R from 'ramda';
 import SelectForm from '../select/SelectForm';
 import DatePickerForm from '../picker/DatePickerForm';
