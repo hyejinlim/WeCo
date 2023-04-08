@@ -20,7 +20,7 @@ function SliderForm({ item }: Props) {
   return (
     <div className={bgColor}>
       <div className={`flex max-w-7xl h-80 py-0 px-6 my-0 mx-auto ${bgColor}`}>
-        <div className="flex-1 my-auto mx-0">
+        <div className="flex-2 my-auto mx-0">
           {!!btnText && (
             <button
               className={`flex font-bold py-1.5 px-8 ${btnColor} rounded-3xl mb-4`}
