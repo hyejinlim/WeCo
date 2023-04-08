@@ -43,6 +43,12 @@ const LoginForm = ({ handleModalRoute }: Props) => {
         console.log(e);
       });
   };
+  const handleGithubLogin = () => {
+    alert('준비중입니다.');
+  };
+  const handleKakaoLogin = () => {
+    alert('준비중입니다.');
+  };
   return (
     <>
       <div className="p-4">
@@ -85,10 +91,12 @@ const LoginForm = ({ handleModalRoute }: Props) => {
             <SocialButton
               src="/assets/github_logo.svg"
               backgroundColor="bg-black"
+              onClick={handleGithubLogin}
             />
             <SocialButton
               src="/assets/kakao_logo.svg"
               backgroundColor="bg-kakao"
+              onClick={handleKakaoLogin}
             />
           </div>
         </div>
