@@ -52,7 +52,7 @@ function LanguageSelect() {
   }, [LANGUAGE_LIST]);
 
   return (
-    <section className="sm:hidden max-w-7xl w-full px-4 mt-20 mb-28 mx-auto">
+    <section className="sm:hidden max-w-7xl w-full px-4 mt-20 mb-20 mx-auto">
       <LanguageCategory onLanguageCategory={handleLanguageCategory} />
       <LanguageList
         data={data}
