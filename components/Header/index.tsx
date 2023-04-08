@@ -15,7 +15,11 @@ function Header() {
         onClick={() => Router.push('/')}
       />
       <div className="flex gap-8 items-center">
-        <Menu routeName="post" text="새글쓰기" />
+        <Menu
+          routeName={!!user ? 'post' : 'login'}
+          text="새글쓰기"
+          modal={!user}
+        />
         {!!user ? (
           <Menu routeName="logout" text="로그아웃" />
         ) : (
