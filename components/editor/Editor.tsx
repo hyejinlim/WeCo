@@ -1,18 +1,13 @@
-import React from 'react';
+import { memo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-// interface IEditor {
-//   htmlStr: string;
-//   setHtmlStr: React.Dispatch<React.SetStateAction<string>>;
-// }
-
-interface Props {
+type Props = {
   value?: string;
   onChange?: (e: string) => void;
-}
+};
 
-const Editor = ({ value, onChange }: Props) => {
+function Editor({ value, onChange }: Props) {
   const modules = {
     toolbar: [
       [{ header: 1 }, { header: 2 }],
@@ -35,18 +30,16 @@ const Editor = ({ value, onChange }: Props) => {
     // 'image',
   ];
   return (
-    <>
-      <ReactQuill
-        style={{ height: '600px' }}
-        theme="snow"
-        modules={modules}
-        formats={formats}
-        placeholder="프로젝트에 대해 소개해주세요!"
-        onChange={onChange}
-        value={value}
-      />
-    </>
+    <ReactQuill
+      style={{ height: '600px' }}
+      theme="snow"
+      modules={modules}
+      formats={formats}
+      placeholder="프로젝트에 대해 소개해주세요!"
+      onChange={onChange}
+      value={value}
+    />
   );
-};
+}
 
-export default Editor;
+export default memo(Editor);
