@@ -4,29 +4,37 @@ import PostCategory from './components/PostCategory';
 import PostCard from './components/PostCard';
 import PostToggle from './components/PostToggle';
 import { Post } from './types';
-import { POST_DATA } from './constants';
 
-function PostList() {
+type Props = {
+  postData: Post[];
+};
+function PostList({ postData }: Props) {
   const [data, setData] = useState<Post[]>([]);
 
+  /**
+   * handler
+   */
   const handleCategoryChange = (type: string) => {
     if (type === 'all') {
-      setData(POST_DATA);
+      setData(postData);
       return;
     }
-    const newData = R.filter((val: Post) => val.type === type)(POST_DATA);
+    const newData = R.filter((val: Post) => val.recruitType === type)(postData);
     setData(newData);
   };
   const handleToggleChange = (checked: boolean) => {
     const newData = R.filter((val: Post) => val.isClosed === !!!checked)(
-      POST_DATA
+      postData
     );
     setData(newData);
   };
 
+  /**
+   * useEffect
+   */
   useEffect(() => {
-    setData(POST_DATA);
-  }, [POST_DATA]);
+    setData(postData);
+  }, [postData]);
 
   return (
     <div className="max-w-7xl w-full mx-auto px-4 pb-20">
