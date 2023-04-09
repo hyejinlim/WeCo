@@ -2,9 +2,8 @@ import { Fragment, memo, useEffect, useState } from 'react';
 import * as R from 'ramda';
 import { useRouter } from 'next/router';
 import { IoArrowBack as Back } from 'react-icons/io5';
-import { FcLinux as Penguin } from 'react-icons/fc';
 import Header from 'components/Header';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { fireStore } from '../../../firebase/firebaseClient';
 import { useAuth } from 'context/authProvider';
 import dayjs from 'dayjs';
@@ -17,6 +16,8 @@ import {
   RecruitCnt,
   RecruitType,
 } from 'components/PostWrite/spread';
+import CommentList from 'components/CommentList';
+import CommentForm from 'components/CommentForm';
 
 function PostDetail() {
   const user = useAuth();
@@ -50,15 +51,15 @@ function PostDetail() {
   const init = async () => {
     if (user?.uid) {
       const docRef = doc(fireStore, 'posts', did as string);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setData(data);
-      } else {
-        console.log('No such document!');
-        return false;
-      }
+      onSnapshot(docRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          setData(data);
+        } else {
+          console.log('No such document!');
+          return false;
+        }
+      });
     }
   };
   useEffect(() => {
@@ -154,47 +155,10 @@ function PostDetail() {
           <div className="py-8" dangerouslySetInnerHTML={{ __html: content }} />
         </div>
         {/* TODO: comment write */}
-        <div className="mt-12">
-          <div className="font-bold text-xl pb-6">
-            {comments}개의 댓글이 있습니다.
-          </div>
-          <textarea
-            placeholder="댓글을 입력하세요."
-            className="w-full border-2 rounded-2xl p-4 mb-2"
-          />
-          <div className="w-full flex justify-end">
-            <button className="bg-gray-900 text-white rounded-full py-2 px-8">
-              댓글 등록
-            </button>
-          </div>
-        </div>
+        <CommentForm total={comments} did={did as string} />
         {/* comment list */}
-        <div className="mt-4">
-          <div className="pb-4">
-            <div className="flex items-center">
-              <div className="bg-red-300 rounded-full p-1 mr-4">
-                <Penguin size="48" />
-              </div>
-              <div>
-                <div className="font-bold">펭수</div>
-                <div className="text-sm text-gray-500">2022-08-15 19:42:18</div>
-              </div>
-            </div>
-            <div className="text-lg py-4 border-b">Gooooooood!</div>
-          </div>
-          <div className="pb-4">
-            <div className="flex items-center">
-              <div className="bg-red-300 rounded-full p-1 mr-4">
-                <Penguin size="48" />
-              </div>
-              <div>
-                <div className="font-bold">펭수</div>
-                <div className="text-sm text-gray-500">2022-08-15 19:42:18</div>
-              </div>
-            </div>
-            <div className="text-lg py-4 border-b">Gooooooood!</div>
-          </div>
-        </div>
+        <CommentList did={did as string} />
+
         {/* TODO: recomment post */}
         <div className="absolute left-full top-96 2xl:hidden">
           <div className="flex items-center mb-4">
