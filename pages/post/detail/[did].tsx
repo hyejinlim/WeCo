@@ -154,32 +154,11 @@ function PostDetail() {
           </div>
           <div className="py-8" dangerouslySetInnerHTML={{ __html: content }} />
         </div>
-        {/* TODO: comment write */}
+
+        {/* comment write */}
         <CommentForm total={comments} did={did as string} />
         {/* comment list */}
         <CommentList did={did as string} />
-
-        {/* TODO: recomment post */}
-        <div className="absolute left-full top-96 2xl:hidden">
-          <div className="flex items-center mb-4">
-            <div className="w-0 h-10 border-2 border-blue-500 bg-blue-500 mr-2" />
-            <div className="whitespace-pre-wrap">
-              <span className="font-bold">펭수</span>
-              {`님이\n좋아하실 글을 모아봤어요!`}
-            </div>
-          </div>
-          <div className="w-60 border-2 rounded-lg px-2 py-4 text-sm">
-            <div>
-              <span className="text-blue-300">1. </span>개발자 추가 모집
-            </div>
-            <div>
-              <span className="text-blue-300">2. </span>개발자 추가 모집
-            </div>
-            <div>
-              <span className="text-blue-300">3. </span>개발자 추가 모집
-            </div>
-          </div>
-        </div>
       </div>
     </Fragment>
   );
