@@ -12,6 +12,7 @@ import { labelFromValue } from 'utils/selection';
 import {
   ContactType,
   Period,
+  Positions,
   ProgressType,
   RecruitCnt,
   RecruitType,
@@ -138,7 +139,7 @@ function PostDetail() {
                     key={item}
                     className="bg-gray-300 text-xs font-semibold text-gray-800 px-2 py-1 rounded-full"
                   >
-                    {item}
+                    {labelFromValue(item, Positions)}
                   </span>
                 );
               })(positions)}
