@@ -7,7 +7,7 @@ function EvaluateModal({ onCancel }: any) {
     onCancel && onCancel();
   };
   return (
-    <div className="flex flex-col bg-white fixed left-6 bottom-6 w-[32rem] rounded-3xl border border-gray-600 p-4">
+    <div className="flex flex-col bg-white fixed left-6 bottom-6 w-[32rem] rounded-2xl border border-gray-600 p-4">
       <div className="flex justify-end">
         <Image
           src="/img/x.png"
