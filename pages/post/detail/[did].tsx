@@ -1,24 +1,68 @@
-import { Fragment, memo } from 'react';
+import { Fragment, memo, useEffect, useState } from 'react';
 import * as R from 'ramda';
 import { useRouter } from 'next/router';
 import { IoArrowBack as Back } from 'react-icons/io5';
 import { FcLinux as Penguin } from 'react-icons/fc';
 import Header from 'components/Header';
-import { POST_DATA } from 'components/PostList/constants';
+import { doc, getDoc } from 'firebase/firestore';
+import { fireStore } from '../../../firebase/firebaseClient';
+import { useAuth } from 'context/authProvider';
+import dayjs from 'dayjs';
+import { labelFromValue } from 'utils/selection';
+import {
+  ContactType,
+  Period,
+  ProgressType,
+  RecruitCnt,
+  RecruitType,
+} from 'components/PostWrite/spread';
 
 function PostDetail() {
+  const user = useAuth();
   const router = useRouter();
   const { query } = router;
   const { did } = query;
-  const data = R.find((item: any) => item.id === parseInt(did as string))(
-    POST_DATA
-  );
-  const { title, language, explan } = data || {};
+  const [data, setData] = useState<any>(null);
+  const {
+    title,
+    content,
+    skills,
+    recruitType,
+    progressType,
+    recruitCnt,
+    endDate,
+    contactType,
+    contactDetail,
+    period,
+    positions,
+    comments,
+  } = data || {};
 
   /**
    * handlers
    */
   const handleBack = () => router.back();
+
+  /**
+   * useEfect
+   */
+  const init = async () => {
+    if (user?.uid) {
+      const docRef = doc(fireStore, user?.uid, did as string);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setData(data);
+      } else {
+        console.log('No such document!');
+        return false;
+      }
+    }
+  };
+  useEffect(() => {
+    init();
+  }, [user]);
 
   if (!data) return <Fragment />;
   return (
@@ -35,43 +79,69 @@ function PostDetail() {
         </div>
         {/* profile */}
         <div className="flex items-center py-8 text-lg gap-4 border-b-2">
-          <div className="font-bold pr-4 border-r-2">네네오</div>
-          <div className="text-gray-500">2022.08.14</div>
+          <div className="font-bold pr-4 border-r-2">{user?.displayName}</div>
+          <div className="text-gray-500">
+            {dayjs(+(did as string)).format('YYYY-MM-DD')}
+          </div>
         </div>
         {/* info */}
         <div className="grid grid-cols-2 sm:grid-cols-1 sm:grid-flow-row gap-6 sm:gap-4 py-12">
           <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">모집 구분</span>
-            <span>프로젝트</span>
+            <span>{labelFromValue(recruitType, RecruitType)}</span>
           </div>
           <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">진행 방식</span>
-            <span>오프라인</span>
+            <span>{labelFromValue(progressType, ProgressType)}</span>
           </div>
           <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">모집 인원</span>
-            <span>10명</span>
+            <span>{labelFromValue(recruitCnt, RecruitCnt)}</span>
           </div>
           <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">시작 예정</span>
-            <span>2022.08.17</span>
+            <span>{dayjs(endDate).format('YYYY-MM-DD')}</span>
           </div>
           <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">연락 방법</span>
-            <span>카카오톡 오픈채팅</span>
+            <a href={contactDetail} target="/blank">
+              <span className="bg-gray-200 px-4 py-2 rounded-full">
+                {labelFromValue(contactType, ContactType)}
+              </span>
+            </a>
           </div>
           <div className="text-xl sm:text-base font-bold">
             <span className="text-gray-500 pr-4">예상 기간</span>
-            <span>3개월</span>
+            <span>{labelFromValue(period, Period)}</span>
           </div>
           <div className="text-xl sm:text-base font-bold flex items-center">
             <span className="text-gray-500 pr-4">사용 언어</span>
             <span className="flex gap-1">
               {R.map((item: string) => {
                 return (
-                  <embed src={`/img/${item}.svg`} width="36" height="36" />
+                  <embed
+                    key={item}
+                    src={`/img/${item}.svg`}
+                    width="36"
+                    height="36"
+                  />
                 );
-              })(language)}
+              })(skills)}
+            </span>
+          </div>
+          <div className="text-xl sm:text-base font-bold flex items-center">
+            <span className="text-gray-500 pr-4">모집 분야</span>
+            <span className="flex gap-1">
+              {R.map((item: string) => {
+                return (
+                  <span
+                    key={item}
+                    className="bg-gray-300 text-xs font-semibold text-gray-800 px-2 py-1 rounded-full"
+                  >
+                    {item}
+                  </span>
+                );
+              })(positions)}
             </span>
           </div>
         </div>
@@ -80,11 +150,13 @@ function PostDetail() {
           <div className="pb-8 text-2xl font-bold border-b-2">
             프로젝트 소개
           </div>
-          <div className="py-8">{explan}</div>
+          <div className="py-8" dangerouslySetInnerHTML={{ __html: content }} />
         </div>
-        {/* comment write */}
+        {/* TODO: comment write */}
         <div className="mt-12">
-          <div className="font-bold text-xl pb-6">1개의 댓글이 있습니다.</div>
+          <div className="font-bold text-xl pb-6">
+            {comments}개의 댓글이 있습니다.
+          </div>
           <textarea
             placeholder="댓글을 입력하세요."
             className="w-full border-2 rounded-2xl p-4 mb-2"
@@ -122,7 +194,7 @@ function PostDetail() {
             <div className="text-lg py-4 border-b">Gooooooood!</div>
           </div>
         </div>
-        {/* recomment post */}
+        {/* TODO: recomment post */}
         <div className="absolute left-full top-96 2xl:hidden">
           <div className="flex items-center mb-4">
             <div className="w-0 h-10 border-2 border-blue-500 bg-blue-500 mr-2" />
