@@ -28,7 +28,7 @@ function Home() {
    */
   const init = async () => {
     if (user?.uid) {
-      const docRef = collection(fireStore, user?.uid);
+      const docRef = collection(fireStore, 'posts');
       const querySnapshot = await getDocs(docRef);
       const data: any = querySnapshot.docs.map((doc) => {
         const diffDays = Math.floor(

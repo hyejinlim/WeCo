@@ -48,7 +48,7 @@ function PostDetail() {
    */
   const init = async () => {
     if (user?.uid) {
-      const docRef = doc(fireStore, user?.uid, did as string);
+      const docRef = doc(fireStore, 'posts', did as string);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {

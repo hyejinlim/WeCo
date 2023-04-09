@@ -82,9 +82,9 @@ function PostWrite() {
   };
 
   const handleClick = async (values: any) => {
-    const data = { ...values, comments: 0, views: 0 };
+    const data = { ...values, comments: 0, views: 0, uid: user?.uid };
     const timeStamp = dayjs().valueOf().toString();
-    const docRef = doc(fireStore, user?.uid as string, timeStamp);
+    const docRef = doc(fireStore, 'posts', timeStamp);
     await setDoc(docRef, data).then(() => {
       alert('등록되었습니다.');
       router.push('/');
