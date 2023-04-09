@@ -17,4 +17,5 @@ export type Post = {
   isClosed: boolean;
   period: number;
   recruitType: string;
+  content: string;
 };
