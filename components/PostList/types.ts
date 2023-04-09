@@ -5,15 +5,17 @@ export type Category = {
 };
 
 export type Post = {
-  id: number;
-  type: string;
-  startDate: string;
+  id: string;
+  positions: string[];
+  progressType: string;
+  contactType: string;
+  contactDetail: string;
+  recruitCnt: number;
+  endDate: string;
   title: string;
-  tag: string[];
-  language: string[];
-  author: string;
-  views: string;
-  comments: string;
+  skills: string[];
   isClosed: boolean;
-  explain: string;
+  period: number;
+  recruitType: string;
+  content: string;
 };

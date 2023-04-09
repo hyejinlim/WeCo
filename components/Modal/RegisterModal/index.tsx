@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-
 import { AiFillCloseCircle as Close } from 'react-icons/ai';
 import { IoArrowBack as Back } from 'react-icons/io5';
-
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 

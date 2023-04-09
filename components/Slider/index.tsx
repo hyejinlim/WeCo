@@ -21,16 +21,16 @@ const settings: SwiperProps = {
 
 const slideData: any[] = [
   {
-    bgColor: 'bg-yellow-200',
+    bgColor: 'bg-yellow-100',
     btnText: '공지사항',
-    btnColor: 'bg-violet-500',
+    btnColor: 'bg-violet-300',
     title: '새롭게 달라진 WECO!',
     subTitle: '를 소개합니다',
     subText: '이제 마음 맞는 팀원을 더 쉽게 만나세요 🔍',
     img: '/img/search.png',
   },
   {
-    bgColor: 'bg-blue-200',
+    bgColor: 'bg-blue-50',
     title: '스터디와 사이드 프로젝트를 찾는 가장 쉬운 방법',
     subText: ' WECO 에서 함께할 개발자를 찾으세요 ⭐️',
     img: '/img/together.svg',
@@ -39,7 +39,7 @@ const slideData: any[] = [
 
 function MainSlider() {
   return (
-    <Swiper {...settings}>
+    <Swiper {...settings} className="!z-0">
       {R.addIndex(R.map)((item: any, index: number) => {
         return (
           <SwiperSlide key={index}>

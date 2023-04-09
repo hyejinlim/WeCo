@@ -1,12 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
 import { getRegisterFormSchema } from 'utils/validations/registerValidation';
-
 import ValidateMessage from 'components/ValidateMessage';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from '../../../firebase/firebaseClient';
 
 type FormTypes = {
   username: string;
+  email: string;
   password: string;
   passwordConfirm: string;
 };
@@ -27,8 +28,16 @@ const RegisterForm = () => {
     const { name, value } = e.target;
     setValue(name, value, { shouldValidate: true });
   };
-  const handleRegister = () => {
-    console.log('회원가입 클릭');
+  const handleRegister = (values: FormTypes) => {
+    const { email, password, username } = values;
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        updateProfile(user, { displayName: username });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="p-4">
@@ -42,6 +51,14 @@ const RegisterForm = () => {
             onChange={handleChange}
           />
           {errors.username && <ValidateMessage result={errors.username} />}
+          <input
+            type="email"
+            className="w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
+            placeholder="Email을 입력해주세요."
+            {...register('email')}
+            onChange={handleChange}
+          />
+          {errors.email && <ValidateMessage result={errors.email} />}
           <input
             type="password"
             className="w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"

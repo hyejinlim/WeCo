@@ -5,17 +5,16 @@ import { setAuthToken } from 'services/BaseService';
 import { useEffect } from 'react';
 import { tempAuthLogin } from 'services/LoginService';
 import { setCookie, isCookieExist } from 'utils/common';
+import { AuthProvider } from 'context/authProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   const queryClient = new QueryClient();
-  
+
   useEffect(() => {
     const isCookie = isCookieExist('accessToken');
     if (!isCookie) {
       tempLogin();
-    }else {
-
+    } else {
     }
   }, []);
 
@@ -37,7 +36,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

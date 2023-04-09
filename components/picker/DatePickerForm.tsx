@@ -1,25 +1,24 @@
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TextField } from '@mui/material';
-import React, { useState } from 'react';
+import { memo } from 'react';
 
-interface Props {
+type Props = {
   date: string;
   onChange: (e: any) => void;
-}
+};
 
-const DatePickerForm = ({ date, onChange }: Props) => {
+function DatePickerForm({ date, onChange }: Props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-        // className={classes.root}
         value={date}
         inputFormat={'YYYY-MM-DD'}
         onChange={onChange}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => <TextField {...params} className="w-full" />}
       />
     </LocalizationProvider>
   );
-};
+}
 
-export default DatePickerForm;
+export default memo(DatePickerForm);
