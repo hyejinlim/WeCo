@@ -16,16 +16,16 @@ function Header() {
       />
       <div className="flex gap-8 items-center">
         <Menu
-          routeName={!!user ? 'post' : 'login'}
+          routeName={!!user ? '/post' : '/login'}
           text="새글쓰기"
           modal={!user}
         />
         {!!user ? (
-          <Menu routeName="logout" text="로그아웃" />
+          <Menu routeName="/logout" text="로그아웃" />
         ) : (
-          <Menu routeName="login" text="로그인" modal />
+          <Menu routeName="/login" text="로그인" modal />
         )}
-        <Menu routeName="mypage" text="MY" />
+        <Menu routeName="/mypage" text="MY" />
       </div>
     </nav>
   );
