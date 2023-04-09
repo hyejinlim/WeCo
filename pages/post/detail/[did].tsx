@@ -49,18 +49,16 @@ function PostDetail() {
    * useEfect
    */
   const init = async () => {
-    if (user?.uid) {
-      const docRef = doc(fireStore, 'posts', did as string);
-      onSnapshot(docRef, (snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.data();
-          setData(data);
-        } else {
-          console.log('No such document!');
-          return false;
-        }
-      });
-    }
+    const docRef = doc(fireStore, 'posts', did as string);
+    onSnapshot(docRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        setData(data);
+      } else {
+        console.log('No such document!');
+        return false;
+      }
+    });
   };
   useEffect(() => {
     init();
