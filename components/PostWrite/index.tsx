@@ -62,7 +62,6 @@ function PostWrite() {
    * handler
    */
   const handleSelected = (type: any, data: any) => {
-    // TODO: includes
     if (R.includes(type, ['skills', 'positions'])) {
       const values = R.map(R.prop('value'))(data);
       return setValue(type, values, { shouldValidate: true });
