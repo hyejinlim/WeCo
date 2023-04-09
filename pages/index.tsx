@@ -27,32 +27,30 @@ function Home() {
    * useEffect
    */
   const init = async () => {
-    if (user?.uid) {
-      const docRef = collection(fireStore, 'posts');
-      const querySnapshot = await getDocs(docRef);
-      const data: any = querySnapshot.docs.map((doc) => {
-        const diffDays = Math.floor(
-          dayjs(doc.data().endDate).diff(dayjs(), 'day')
-        );
-        return {
-          id: doc.id,
-          positions: doc.data().positions,
-          progressType: doc.data().progressType,
-          contactType: doc.data().contactType,
-          contactDetail: doc.data().contactDetail,
-          recruitCnt: doc.data().recruitCnt,
-          endDate: doc.data().endDate,
-          title: doc.data().title,
-          skills: doc.data().skills,
-          content: doc.data().content,
-          period: doc.data().period,
-          recruitType: doc.data().recruitType,
-          isClosed: diffDays < 0,
-          name: user?.displayName,
-        };
-      });
-      setPostData(data);
-    }
+    const docRef = collection(fireStore, 'posts');
+    const querySnapshot = await getDocs(docRef);
+    const data: any = querySnapshot.docs.map((doc) => {
+      const diffDays = Math.floor(
+        dayjs(doc.data().endDate).diff(dayjs(), 'day')
+      );
+      return {
+        id: doc.id,
+        positions: doc.data().positions,
+        progressType: doc.data().progressType,
+        contactType: doc.data().contactType,
+        contactDetail: doc.data().contactDetail,
+        recruitCnt: doc.data().recruitCnt,
+        endDate: doc.data().endDate,
+        title: doc.data().title,
+        skills: doc.data().skills,
+        content: doc.data().content,
+        period: doc.data().period,
+        recruitType: doc.data().recruitType,
+        isClosed: diffDays < 0,
+        name: user?.displayName,
+      };
+    });
+    setPostData(data);
   };
   useEffect(() => {
     init();
