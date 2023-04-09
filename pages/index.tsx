@@ -14,7 +14,18 @@ import { Post } from 'components/PostList/types';
 function Home() {
   const user = useAuth();
   const [postData, setPostData] = useState<Post[]>([]);
+  const [selectedLanguage, setSelectedlanguage] = useState<string[]>([]);
 
+  /**
+   * handlers
+   */
+  const handleSelectedLanguage = (language: string[]) => {
+    setSelectedlanguage(language);
+  };
+
+  /**
+   * useEffect
+   */
   const init = async () => {
     if (user?.uid) {
       const docRef = collection(fireStore, user?.uid);
@@ -51,8 +62,8 @@ function Home() {
     <>
       <Header />
       <MainSlider />
-      <LanguageSelect />
-      <PostList postData={postData} />
+      <LanguageSelect onSelectedLanguage={handleSelectedLanguage} />
+      <PostList postData={postData} selectedLanguage={selectedLanguage} />
       <EvaluateButton />
       <ScrollTopButton />
     </>

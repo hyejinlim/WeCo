@@ -6,7 +6,10 @@ import LanguageSelectedList from './components/LanguageSelectedList';
 import { LANGUAGE_LIST } from './constants';
 import { LANGUAGE } from './types';
 
-function LanguageSelect() {
+type Props = {
+  onSelectedLanguage: (language: string[]) => void;
+};
+function LanguageSelect({ onSelectedLanguage }: Props) {
   const [data, setData] = useState<LANGUAGE[]>([]);
   const [selectedData, setSelectedData] = useState<string[]>([]);
 
@@ -40,6 +43,11 @@ function LanguageSelect() {
   // 선택한 언어 초기화
   const handleReset = () => setSelectedData([]);
 
+  // 외부에 선택한 언어 전달
+  const handleSelectedLanguage = (language: string[]) => {
+    onSelectedLanguage && onSelectedLanguage(language);
+  };
+
   /**
    * useEffect
    */
@@ -50,6 +58,10 @@ function LanguageSelect() {
     )(LANGUAGE_LIST);
     setData(defaultData);
   }, [LANGUAGE_LIST]);
+
+  useEffect(() => {
+    handleSelectedLanguage(selectedData);
+  }, [selectedData]);
 
   return (
     <section className="sm:hidden max-w-7xl w-full px-4 mt-20 mb-20 mx-auto">
