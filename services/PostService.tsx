@@ -1,7 +1,7 @@
 import { ajaxGet } from './BaseService';
 
 // get 예시
-export const getPostAllList = async (param) => {
+export const getPostAllList = async (param: any) => {
   const params = {
     sort: '',
     offset: '',
