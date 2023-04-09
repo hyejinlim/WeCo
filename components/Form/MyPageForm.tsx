@@ -1,6 +1,12 @@
+import PostCard from 'components/PostList/components/PostCard';
+import { Post } from 'components/PostList/types';
 import { memo } from 'react';
 
-function MyPageForm() {
+type Props = {
+  postData: Post[];
+};
+
+function MyPageForm({ postData }: Props) {
   return (
     <section className="pt-20">
       <div className="max-w-7xl my-0 mx-auto px-4 min-h-screen">
@@ -11,8 +17,8 @@ function MyPageForm() {
             </span>
           </section>
         </main>
-        <div className="bg-zinc-300 w-full h-screen text-2xl p-4">
-          내가 작성한 게시글 보여주는 영역
+        <div className="w-full h-scree">
+          <PostCard data={postData} />
         </div>
       </div>
     </section>
