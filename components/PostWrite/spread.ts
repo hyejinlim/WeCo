@@ -63,28 +63,29 @@ export const Skills = [
   { label: 'Swift', value: 'swift' },
   { label: 'Kotlin', value: 'kotlin' },
   { label: 'MySQL', value: 'mysql' },
-  { label: 'MongoDB', value: 'mongoDB' },
+  { label: 'MongoDB', value: 'mongodb' },
   { label: 'PHP', value: 'php' },
-  { label: 'GraphQl', value: 'graphQl' },
+  { label: 'GraphQl', value: 'graphql' },
   {
     label: 'Firebase',
     value: 'firebase',
   },
   {
     label: 'ReactNative',
-    value: 'reactNative',
+    value: 'reactnative',
   },
   { label: 'Unity', value: 'unity' },
   { label: 'Flutter', value: 'flutter' },
   { label: 'AWS', value: 'aws' },
   {
     label: 'Kubernetes',
-    value: 'k8s',
+    value: 'kubernetes',
   },
   { label: 'Docker', value: 'docker' },
   { label: 'Git', value: 'git' },
   { label: 'Figma', value: 'figma' },
   { label: 'Zeplin', value: 'zeplin' },
+  { label: 'C', value: 'c' },
 ];
 
 export const Positions = [
